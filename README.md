@@ -2,5 +2,10 @@
 
 Run app:
 ```shell
-git push -u origin main
+gradlew run
+```
+
+Bundle the app:
+```shell
+gradlew build
 ```

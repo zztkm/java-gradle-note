@@ -28,3 +28,7 @@ application {
     // Define the main class for the application.
     mainClass.set("javadev.App")
 }
+
+tasks.withType<JavaExec>() {
+    standardInput = System.`in`
+}
