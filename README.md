@@ -1,4 +1,4 @@
-# My Java Gradle Note
+# Toy shell in Java
 
 Run app:
 ```shell
