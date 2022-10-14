@@ -26,7 +26,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass.set("javadev.App")
+    mainClass.set("jtsh.App")
 }
 
 tasks.withType<JavaExec>() {
