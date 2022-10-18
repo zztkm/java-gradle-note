@@ -26,18 +26,15 @@ public class CommandExecutor {
         int exitCode;
         try {
             // 標準出力をすべて読み込む
-            new Thread(() -> {
-                try (InputStream stream = process.getInputStream()) {
-                    BufferedReader br = new BufferedReader(new InputStreamReader(stream));
-                    String line = null;
-                    while ((line = br.readLine()) != null) {
-                        System.out.println(line);
-                    }
-                } catch (IOException e) {
-                    System.err.println(e.getMessage());
+            try (InputStream stream = process.getInputStream()) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(stream));
+                String line = null;
+                while ((line = br.readLine()) != null) {
+                    System.out.println(line);
                 }
-            }).start();
-
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+            }
             boolean end = process.waitFor(timeoutSec, TimeUnit.SECONDS);
             if (end) {
                 exitCode = process.exitValue();
