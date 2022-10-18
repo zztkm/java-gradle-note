@@ -12,27 +12,39 @@ public class App {
         return System.getProperty("user.name");
     }
 
+    String getUserHome() {
+        return System.getProperty("user.home");
+    }
+
     String getCwd() {
         return Paths.get("").toAbsolutePath().toString();
+    }
+
+    String getPrompt() {
+        return getCwd().replace(getUserHome(), "~");
     }
 
     public static void main(String[] args) {
         App app = new App();
         System.out.println("Hello " + app.getUserName());
+        System.out.println("user home: " + app.getUserHome());
+
+        String userHome = app.getUserHome();
 
         try (Scanner scanner = new Scanner(System.in)) {
             while (true) {
-                String cwd = app.getCwd();
-                System.out.print(cwd + "> ");
+                String prompt = app.getPrompt();
+                System.out.print(prompt + "> ");
                 String line = scanner.nextLine();
 
-                if (line == "exit") {
+                if (line.equals("exit")) {
                     break;
                 }
-                if (line == "") {
+                if (line.equals("")) {
                     continue;
                 }
-                CommandExecutor.execute(line, 10);
+                var cmdList = line.split(" ");
+                CommandExecutor.execute(cmdList);
             }
         }
 

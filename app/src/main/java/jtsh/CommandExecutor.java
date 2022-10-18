@@ -6,13 +6,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class CommandExecutor {
-    public static int execute(String cmd, long timeoutSec) {
+    public static int execute(String[] cmd) {
         List<String> cmdList = Arrays.asList(cmd);
         ProcessBuilder builder = new ProcessBuilder(cmdList);
-        builder.redirectErrorStream(true);  // 標準エラー出力の内容を標準出力にマージする
+        builder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+        builder.redirectError(ProcessBuilder.Redirect.INHERIT);
+        builder.redirectInput(ProcessBuilder.Redirect.INHERIT);
 
         Process process;
         try {
@@ -33,12 +34,7 @@ public class CommandExecutor {
             } catch (IOException e) {
                 System.err.println(e.getMessage());
             }
-            boolean end = process.waitFor(timeoutSec, TimeUnit.SECONDS);
-            if (end) {
-                exitCode = process.exitValue();
-            } else {
-                throw new CommandExecuteFailedException("Command timeout. [CommandPath: " + cmdList + "]");
-            }
+            exitCode = process.waitFor();
 
         } catch (InterruptedException e) {
             throw new CommandExecuteFailedException("Command interrupted. [CommandPath: " + cmdList + "]", e);
