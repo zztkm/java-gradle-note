@@ -6,10 +6,10 @@ This is my first Java project. I'm sure there are many bad implementations, so I
 
 Run app:
 ```shell
-gradlew run
+./gradlew run
 ```
 
 Bundle the app:
 ```shell
-gradlew build
+./gradlew build
 ```
